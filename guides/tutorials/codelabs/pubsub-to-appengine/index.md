@@ -75,15 +75,15 @@ Configure Spinnaker to receive messages from your Google Cloud Pubsub subscripti
 
 2. Create a json file and add the following contents to the file:
 
-    ```
+    <pre>
     [
-      {
-        "reference": "{{ bucket }}/{{ name }}",
-        "name": "gs://{{ bucket }}/{{ name }}",
-        "type": "gcs/object"
-      }
+        {
+            "reference": "&#123;&#123; bucket &#125;&#125;/&#123;&#123; name &#125;&#125;",
+            "name": "gs://&#123;&#123; bucket &#125;&#125;/&#123;&#123; name &#125;&#125;",
+            "type": "gcs/object"
+        }
     ]
-    ```
+    </pre>
 
     This is a [Jinja](http://jinja.pocoo.org/docs/2.9/) template that defines the tranformation between the pubsub message structure and the artifact format
     Spinnaker understands. The json snippet above defines the mapping specific to the GCS pubsub message, but these are entirely

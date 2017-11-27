@@ -97,12 +97,40 @@ Now configure Spinnaker to receive messages from your Google Cloud Pub/Sub subsc
     Spinnaker understands. The JSON snippet above defines the mapping specific to the GCS Pub/Sub message, but these are entirely
     user-supplied and can specify any valid Jinja transformation.
 
+    Here is an example message payload from uploading an object to a GCS bucket:
+
+    ```
+    {
+      "kind": "storage#object",
+      "id": "gcs-pub-sub/app.tar/1511803705417483",
+      "selfLink": "https://www.googleapis.com/storage/v1/b/jtk54-gcs-pub-sub/o/app.tar",
+      "name": "app.tar",
+      "bucket": "jtk54-gcs-pub-sub",
+      "generation": "1511803705417483",
+      "metageneration": "1",
+      "contentType": "application/x-tar",
+      "timeCreated": "2017-11-27T17:28:25.218Z",
+      "updated": "2017-11-27T17:28:25.218Z",
+      "storageClass": "MULTI_REGIONAL",
+      "timeStorageClassUpdated": "2017-11-27T17:28:25.218Z",
+      "size": "20480",
+      "md5Hash": "K8fipg9xurPwrBEEfrkP9w==",
+      "mediaLink": "https://www.googleapis.com/download/storage/v1/b/jtk54-gcs-pub-sub/o/app.tar?generation=1511803705417483&alt=media",
+      "crc32c": "T4DRpw==",
+      "etag": "CIu+09aj39cCEAE="
+    }
+    ```
+
+    Any of the keys present in this message can be used in the transformation definition. Jinja is expressive, so you can even include
+    things like loops, array indices, and paths to sub-objects in your template. The only constraint on the template file is that
+    the resultant object must match [the artifact model class](https://github.com/spinnaker/kork/blob/master/kork-artifacts/src/main/java/com/netflix/spinnaker/kork/artifacts/model/Artifact.java),
+    and that one must be supplied to Spinnaker.
+
     Store the path to 'gcs-jinja.json' as an environment variable for the next step:
     `TEMPLATE_PATH="$(pwd)/gcs-jinja.json"`
 
     Make sure the file permissions on this template file are configured so that Spinnaker can read it:
     `sudo chown spinnaker $TEMPLATE_PATH`
-
 
 3. Add your subscription to Google Pub/Sub:
 `hal config pubsub google subscription add --project $PROJECT_ID --json-path $SERVICE_ACCOUNT_DEST --subscription-name $SUBSCRIPTION_NAME --template-path $TEMPLATE_PATH my-gcs-supscription`

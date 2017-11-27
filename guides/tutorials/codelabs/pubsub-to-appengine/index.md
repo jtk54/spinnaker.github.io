@@ -148,7 +148,7 @@ Wait a few minutes for the deploy to complete.
 
     b. Create a new Spinnaker application by selecting `Actions` > `Create Application`.
 
-    c. Give the application a name and an admin email, and add 'appengine' to the `Cloud Providers`.
+    c. Give the application a name and an admin email. If you have more than one cloud provider configured, add 'appengine' to the `Cloud Providers`.
 
     d. Click the check box beside 'Consider only cloud provider health when executing tasks' and create the application.
 
